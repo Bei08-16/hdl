@@ -4,7 +4,7 @@
 ## Auto-generated, do not modify!
 ####################################################################################
 
-PROJECT_NAME := ad7190_ebz_coraz7s
+PROJECT_NAME := ad7190_asdz_coraz7s
 
 M_DEPS += ../../scripts/adi_pd.tcl
 M_DEPS += ../../common/coraz7s/coraz7s_system_ps7.tcl
