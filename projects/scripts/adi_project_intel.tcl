@@ -1,3 +1,4 @@
+source ../../scripts/adi_env.tcl
 
 ## Initialize global variable
 set family "none"
