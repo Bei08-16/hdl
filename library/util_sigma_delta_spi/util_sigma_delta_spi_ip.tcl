@@ -1,5 +1,5 @@
 
-source $ad_hdl_dir/library/scripts/adi_ip_xilinx.tcl
+source ../scripts/adi_ip_xilinx.tcl
 
 adi_ip_create util_sigma_delta_spi
 adi_ip_files util_sigma_delta_spi [list \

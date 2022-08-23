@@ -2,7 +2,7 @@
 package require qsys 14.0
 
 
-source $ad_hdl_dir/library/scripts/adi_ip_intel.tcl
+source ../scripts/adi_ip_intel.tcl
 
 ad_ip_create intel_mem_asym {Intel Asymmetric Memory}
 set_module_property COMPOSITION_CALLBACK p_intel_mem_asym

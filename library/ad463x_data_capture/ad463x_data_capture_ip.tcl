@@ -1,6 +1,6 @@
 
 
-source $ad_hdl_dir/library/scripts/adi_ip_xilinx.tcl
+source ../scripts/adi_ip_xilinx.tcl
 
 adi_ip_create ad463x_data_capture
 adi_ip_files ad463x_data_capture [list \

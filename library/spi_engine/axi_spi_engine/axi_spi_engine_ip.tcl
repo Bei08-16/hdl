@@ -1,7 +1,7 @@
 # ip
 
 
-source $ad_hdl_dir/library/scripts/adi_ip_xilinx.tcl
+source ../scripts/adi_ip_xilinx.tcl
 
 global VIVADO_IP_LIBRARY
 

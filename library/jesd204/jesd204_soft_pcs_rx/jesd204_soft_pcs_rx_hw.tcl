@@ -45,7 +45,7 @@
 package require qsys 14.0
 
 
-source $ad_hdl_dir/library/scripts/adi_ip_intel.tcl
+source ../scripts/adi_ip_intel.tcl
 
 ad_ip_create jesd204_soft_pcs_rx "ADI JESD204 Transmit Soft PCS"
 

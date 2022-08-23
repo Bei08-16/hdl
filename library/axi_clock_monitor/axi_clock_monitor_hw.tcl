@@ -3,7 +3,7 @@
 package require qsys
 
 
-source $ad_hdl_dir/library/scripts/adi_ip_intel.tcl
+source ../scripts/adi_ip_intel.tcl
 
 ad_ip_create axi_clock_monitor {axi_clock_monitor} p_axi_clock_monitor
 
