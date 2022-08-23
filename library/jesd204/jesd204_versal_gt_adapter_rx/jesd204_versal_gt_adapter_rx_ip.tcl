@@ -43,7 +43,7 @@
 #
 
 
-source ../scripts/adi_ip_xilinx.tcl
+source ../../scripts/adi_ip_xilinx.tcl
 
 adi_ip_create jesd204_versal_gt_adapter_rx
 adi_ip_files jesd204_versal_gt_adapter_rx [list \

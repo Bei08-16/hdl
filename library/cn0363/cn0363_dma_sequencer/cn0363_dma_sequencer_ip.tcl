@@ -1,6 +1,6 @@
 
 
-source ../scripts/adi_ip_xilinx.tcl
+source ../../scripts/adi_ip_xilinx.tcl
 
 adi_ip_create cn0363_dma_sequencer
 adi_ip_files cn0363_dma_sequencer [list \

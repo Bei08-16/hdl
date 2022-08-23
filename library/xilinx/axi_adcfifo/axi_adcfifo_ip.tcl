@@ -1,7 +1,7 @@
 # ip
 
 
-source ../scripts/adi_ip_xilinx.tcl
+source ../../scripts/adi_ip_xilinx.tcl
 
 adi_ip_create axi_adcfifo
 adi_ip_files axi_adcfifo [list \

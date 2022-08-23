@@ -1,7 +1,7 @@
 
 package require qsys 14.0
 
-source ../../scripts/adi_ip_intel.tcl
+source ../../../scripts/adi_ip_intel.tcl
 
 ad_ip_create spi_engine_interconnect {SPI Engine Interconnect} p_elaboration
 ad_ip_files spi_engine_interconnect [list\

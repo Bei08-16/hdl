@@ -1,5 +1,5 @@
 
-source ../scripts/adi_ip_xilinx.tcl
+source ../../scripts/adi_ip_xilinx.tcl
 
 adi_ip_create util_clkdiv
 adi_ip_files util_clkdiv [list \

@@ -1,7 +1,7 @@
 
 package require qsys 14.0
 
-source ../../scripts/adi_ip_intel.tcl
+source ../../../scripts/adi_ip_intel.tcl
 
 ad_ip_create spi_engine_execution {SPI Engine Execution}
 set_module_property ELABORATION_CALLBACK p_elaboration

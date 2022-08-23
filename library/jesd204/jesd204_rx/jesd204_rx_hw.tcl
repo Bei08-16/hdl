@@ -45,7 +45,7 @@
 package require qsys 14.0
 
 
-source ../scripts/adi_ip_intel.tcl
+source ../../scripts/adi_ip_intel.tcl
 
 ad_ip_create jesd204_rx "ADI JESD204 Receive" jesd204_rx_elaboration_callback
 

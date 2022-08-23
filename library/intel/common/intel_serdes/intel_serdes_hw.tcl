@@ -2,7 +2,7 @@
 package require qsys 14.0
 
 
-source ../scripts/adi_ip_intel.tcl
+source ../../../scripts/adi_ip_intel.tcl
 
 ad_ip_create intel_serdes {Intel SERDES}
 set_module_property COMPOSITION_CALLBACK p_intel_serdes
