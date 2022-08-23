@@ -1,4 +1,4 @@
-source ../../scripts/adi_env.tcl
+
 
 ## Define an interface for Platform Designer.
 #
