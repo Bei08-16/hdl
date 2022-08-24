@@ -1,6 +1,6 @@
 // ***************************************************************************
 // ***************************************************************************
-// Copyright 2021 (c) Analog Devices, Inc. All rights reserved.
+// Copyright 2021 - 2022 (c) Analog Devices, Inc. All rights reserved.
 //
 // In this HDL repository, there are many different and unique modules, consisting
 // of various HDL (Verilog or VHDL) components. The individual modules are
@@ -56,70 +56,70 @@ module axi_ltc2387 #(
 
   // adc interface
 
-  input                     ref_clk,
-  input                     clk_gate,
-  input                     dco_p,
-  input                     dco_n,
-  input                     da_p,
-  input                     da_n,
-  input                     db_p,
-  input                     db_n,
+  input                    ref_clk,
+  input                    clk_gate,
+  input                    dco_p,
+  input                    dco_n,
+  input                    da_p,
+  input                    da_n,
+  input                    db_p,
+  input                    db_n,
 
   // dma interface
 
-  output                    adc_valid,
-  output     [OUT_RES-1:0]  adc_data,
-  input                     adc_dovf,
+  output                   adc_valid,
+  output   [OUT_RES-1:0]   adc_data,
+  input                    adc_dovf,
 
   // axi interface
 
-  input                     s_axi_aclk,
-  input                     s_axi_aresetn,
-  input                     s_axi_awvalid,
-  input       [15:0]        s_axi_awaddr,
-  output                    s_axi_awready,
-  input                     s_axi_wvalid,
-  input       [31:0]        s_axi_wdata,
-  input       [ 3:0]        s_axi_wstrb,
-  output                    s_axi_wready,
-  output                    s_axi_bvalid,
-  output      [ 1:0]        s_axi_bresp,
-  input                     s_axi_bready,
-  input                     s_axi_arvalid,
-  input       [15:0]        s_axi_araddr,
-  output                    s_axi_arready,
-  output                    s_axi_rvalid,
-  output      [ 1:0]        s_axi_rresp,
-  output      [31:0]        s_axi_rdata,
-  input                     s_axi_rready,
-  input       [ 2:0]        s_axi_awprot,
-  input       [ 2:0]        s_axi_arprot
+  input                    s_axi_aclk,
+  input                    s_axi_aresetn,
+  input                    s_axi_awvalid,
+  input       [15:0]       s_axi_awaddr,
+  output                   s_axi_awready,
+  input                    s_axi_wvalid,
+  input       [31:0]       s_axi_wdata,
+  input       [ 3:0]       s_axi_wstrb,
+  output                   s_axi_wready,
+  output                   s_axi_bvalid,
+  output      [ 1:0]       s_axi_bresp,
+  input                    s_axi_bready,
+  input                    s_axi_arvalid,
+  input       [15:0]       s_axi_araddr,
+  output                   s_axi_arready,
+  output                   s_axi_rvalid,
+  output      [ 1:0]       s_axi_rresp,
+  output      [31:0]       s_axi_rdata,
+  input                    s_axi_rready,
+  input       [ 2:0]       s_axi_awprot,
+  input       [ 2:0]       s_axi_arprot
 );
 
   // internal signals
 
-  wire    [15:0]  adc_data_s;
+  wire   [15:0]   adc_data_s;
   wire            adc_or_s;
-  wire    [ 1:0]  up_dld_s;
-  wire    [ 9:0]  up_dwdata_s;
-  wire    [ 9:0]  up_drdata_s;
+  wire   [ 1:0]   up_dld_s;
+  wire   [ 9:0]   up_dwdata_s;
+  wire   [ 9:0]   up_drdata_s;
   wire            delay_locked_s;
   wire            up_status_pn_err_s;
   wire            up_status_pn_oos_s;
   wire            up_status_or_s;
   wire            up_rreq_s;
-  wire    [13:0]  up_raddr_s;
-  wire    [31:0]  up_rdata_s[0:2];
+  wire   [13:0]   up_raddr_s;
+  wire   [31:0]   up_rdata_s[0:2];
   wire            up_rack_s[0:2];
   wire            up_wack_s[0:2];
   wire            up_wreq_s;
-  wire    [13:0]  up_waddr_s;
-  wire    [31:0]  up_wdata_s;
+  wire   [13:0]   up_waddr_s;
+  wire   [31:0]   up_wdata_s;
 
   // internal registers
 
   reg             up_wack = 'd0;
-  reg     [31:0]  up_rdata = 'd0;
+  reg    [31:0]   up_rdata = 'd0;
   reg             up_rack = 'd0;
 
   // internal signals
@@ -130,8 +130,8 @@ module axi_ltc2387 #(
   wire            up_clk;
   wire            up_rstn;
   wire            delay_rst;
-  wire     [ADC_RES-1:0]  adc_data_ch_s;
   wire            adc_valid_ch_s;
+  wire [ADC_RES-1:0] adc_data_ch_s;
 
   // signal name changes
 
@@ -160,7 +160,7 @@ module axi_ltc2387 #(
     .IO_DELAY_GROUP (IO_DELAY_GROUP),
     .DELAY_REFCLK_FREQUENCY (DELAY_REFCLK_FREQUENCY),
     .RESOLUTION (ADC_RES),
-    .IODELAY_CTRL(IODELAY_CTRL),
+    .IODELAY_CTRL (IODELAY_CTRL),
     .TWOLANES (TWOLANES)
   ) i_if (
     .clk (ref_clk),
@@ -215,15 +215,17 @@ module axi_ltc2387 #(
 
   up_delay_cntrl #(
     .INIT_DELAY (ADC_INIT_DELAY),
-    .DATA_WIDTH(2),
-    .BASE_ADDRESS(6'h02)
+    .DATA_WIDTH (2),
+    .BASE_ADDRESS (6'h02)
   ) i_delay_cntrl (
     .delay_clk (delay_clk),
     .delay_rst (delay_rst),
     .delay_locked (delay_locked_s),
+
     .up_dld (up_dld_s),
     .up_dwdata (up_dwdata_s),
     .up_drdata (up_drdata_s),
+
     .up_rstn (up_rstn),
     .up_clk (up_clk),
     .up_wreq (up_wreq_s),
@@ -248,9 +250,10 @@ module axi_ltc2387 #(
     .DRP_DISABLE (6'h00),
     .USERPORTS_DISABLE (USERPORTS_DISABLE),
     .GPIO_DISABLE (0),
-    .START_CODE_DISABLE(0)
+    .START_CODE_DISABLE (0)
   ) i_up_adc_common (
     .mmcm_rst (),
+
     .adc_clk (adc_clk),
     .adc_rst (adc_rst),
     .adc_r1_mode (),
@@ -276,10 +279,12 @@ module axi_ltc2387 #(
     .up_pps_status (1'd0),
     .up_pps_irq_mask (),
     .up_adc_r1_mode (),
+
     .up_adc_ce (),
     .up_status_pn_err (up_status_pn_err_s),
     .up_status_pn_oos (up_status_pn_oos_s),
     .up_status_or (up_status_or_s),
+
     .up_drp_sel (),
     .up_drp_wr (),
     .up_drp_addr (),
@@ -287,10 +292,12 @@ module axi_ltc2387 #(
     .up_drp_rdata (32'b0),
     .up_drp_ready (1'b0),
     .up_drp_locked (1'b1),
+
     .up_usr_chanmax_out (),
     .up_usr_chanmax_in (8'd1),
     .up_adc_gpio_in (32'd0),
     .up_adc_gpio_out (),
+
     .up_rstn (up_rstn),
     .up_clk (up_clk),
     .up_wreq (up_wreq_s),
@@ -307,6 +314,7 @@ module axi_ltc2387 #(
   up_axi i_up_axi (
     .up_rstn (up_rstn),
     .up_clk (up_clk),
+
     .up_axi_awvalid (s_axi_awvalid),
     .up_axi_awaddr (s_axi_awaddr),
     .up_axi_awready (s_axi_awready),
@@ -324,6 +332,7 @@ module axi_ltc2387 #(
     .up_axi_rresp (s_axi_rresp),
     .up_axi_rdata (s_axi_rdata),
     .up_axi_rready (s_axi_rready),
+
     .up_wreq (up_wreq_s),
     .up_waddr (up_waddr_s),
     .up_wdata (up_wdata_s),
