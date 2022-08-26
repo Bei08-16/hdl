@@ -268,6 +268,7 @@ module axi_ltc2387 #(
     .adc_ext_sync_manual_req(),
     .adc_num_lanes (),
     .adc_custom_control(),
+    .adc_crc_enable (),
     .adc_sdr_ddr_n (),
     .adc_symb_op (),
     .adc_symb_8_16b (),
