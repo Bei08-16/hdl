@@ -47,6 +47,7 @@ module up_adc_common #(
   parameter         CONFIG = 0,
   parameter         COMMON_ID = 6'h00,
   parameter         DRP_DISABLE = 0,
+  parameter         ADC_CUSTOM_RD_WR = 0,
   parameter         USERPORTS_DISABLE = 0,
   parameter         GPIO_DISABLE = 0,
   parameter         START_CODE_DISABLE = 0
@@ -98,8 +99,15 @@ module up_adc_common #(
   output      [11:0]  up_drp_addr,
   output      [31:0]  up_drp_wdata,
   input       [31:0]  up_drp_rdata,
+  output      [31:0]  adc_custom_write,
+  input       [31:0]  adc_custom_read,
   input               up_drp_ready,
   input               up_drp_locked,
+
+  // ADC custom read/write interface
+  
+  output      [31:0]  adc_custom_wr,
+  input       [31:0]  adc_custom_rd,
 
   // user channel control
 
@@ -156,6 +164,7 @@ module up_adc_common #(
   reg         [31:0]  up_rdata_int = 'd0;
   reg         [ 7:0]  up_adc_custom_control = 'd0;
   reg                 up_adc_crc_enable = 'd0;
+  reg         [31:0]  up_adc_custom_wr = 'd0;
 
   // internal signals
 
@@ -337,6 +346,18 @@ module up_adc_common #(
 
   always @(posedge up_clk) begin
     if (up_rstn == 0) begin
+      up_adc_custom_wr <= 'd0;
+    end else begin
+      if ((up_wreq_s == 1'b1) && (up_waddr[6:0] == 7'h20)) begin
+         up_adc_custom_wr <= up_wdata;
+      end
+    end
+  end
+
+  assign adc_custom_wr = up_adc_custom_wr;
+
+  always @(posedge up_clk) begin
+    if (up_rstn == 0) begin
       up_status_ovf <= 'd0;
     end else begin
       if (up_status_ovf_s == 1'b1) begin
@@ -457,6 +478,8 @@ module up_adc_common #(
           7'h1d: up_rdata_int <= {14'd0, up_drp_locked, up_drp_status_s, 16'b0};
           7'h1e: up_rdata_int <= up_drp_wdata;
           7'h1f: up_rdata_int <= up_drp_rdata_hold_s;
+          7'h20: up_rdata_int <= adc_custom_wr;
+          7'h21: up_rdata_int <= adc_custom_rd;
           7'h22: up_rdata_int <= {29'd0, up_status_ovf, 2'b0};
           7'h23: up_rdata_int <= 32'd8;
           7'h28: up_rdata_int <= {24'd0, up_usr_chanmax_in};
