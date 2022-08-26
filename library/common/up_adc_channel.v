@@ -44,7 +44,8 @@ module up_adc_channel #(
   parameter   USERPORTS_DISABLE = 0,
   parameter   DATAFORMAT_DISABLE = 0,
   parameter   DCFILTER_DISABLE = 0,
-  parameter   IQCORRECTION_DISABLE = 0
+  parameter   IQCORRECTION_DISABLE = 0,
+  parameter   RD_DATA_ADC_ENABLE = 0
 ) (
 
   // adc interface
@@ -66,6 +67,8 @@ module up_adc_channel #(
   input           adc_pn_err,
   input           adc_pn_oos,
   input           adc_or,
+  input   [30:0]  adc_read_data,
+  output          adc_read_req,
   input   [ 7:0]  adc_status_header,
   input           adc_crc_err,
   output          up_adc_pn_err,
@@ -140,6 +143,7 @@ module up_adc_channel #(
 
   // internal signals
 
+  wire            rd_data_adc_enable;
   wire            up_wreq_s;
   wire            up_rreq_s;
   wire            up_adc_pn_err_s;
@@ -163,6 +167,10 @@ module up_adc_channel #(
     end
   endfunction
 
+  // rd_data_adc_enable status
+
+  assign rd_data_adc_enable = (RD_DATA_ADC_ENABLE) ? 1'b1 : 1'b0;
+
   // up control/status
 
   assign up_adc_pn_err = up_adc_pn_err_int;
@@ -180,6 +188,7 @@ module up_adc_channel #(
 
   assign up_wreq_s = ((up_waddr[13:8] == COMMON_ID) && (up_waddr[7:4] == CHANNEL_ID)) ? up_wreq : 1'b0;
   assign up_rreq_s = ((up_raddr[13:8] == COMMON_ID) && (up_raddr[7:4] == CHANNEL_ID)) ? up_rreq : 1'b0;
+  assign adc_read_req = ((up_raddr[3:0] == 4'h2)) ? up_rreq : 1'b0;
 
   // processor write interface
 
@@ -399,6 +408,7 @@ module up_adc_channel #(
                                   1'd0, up_adc_dfmt_se, up_adc_dfmt_type, up_adc_dfmt_enable,
                                   2'd0, up_adc_pn_type, up_adc_enable};
           4'h1: up_rdata_int <= { 19'd0, up_adc_crc_err_s, up_adc_status_header_s, 1'd0, up_adc_pn_err_int, up_adc_pn_oos_int, up_adc_or_int};
+	  4'h2: up_rdata_int <= { rd_data_adc_enable, adc_read_data};
           4'h4: up_rdata_int <= { up_adc_dcfilt_offset, up_adc_dcfilt_coeff};
           4'h5: up_rdata_int <= { up_adc_iqcor_coeff_1, up_adc_iqcor_coeff_2};
           4'h6: up_rdata_int <= { 12'd0, up_adc_pnseq_sel, 12'd0, up_adc_data_sel};
